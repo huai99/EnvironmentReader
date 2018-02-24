@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main"
-    tools:context="com.example.environmentreader.MainActivity"
     android:weightSum="1">
 
     <TextView
@@ -64,7 +62,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/south"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="South"
@@ -72,7 +70,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/southvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -85,7 +83,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/north"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="North"
@@ -93,7 +91,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/northvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -107,7 +105,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/east"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="East"
@@ -115,7 +113,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/eastvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -129,7 +127,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/west"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="West"
@@ -137,7 +135,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/westvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -151,7 +149,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/central"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Central"
@@ -159,7 +157,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/centralvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -168,10 +166,31 @@
 
         </TableRow>
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/national"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="National"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/nationalvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+        </TableRow>
     </TableLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/refreshbutton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Refresh" />

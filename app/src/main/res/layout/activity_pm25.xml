@@ -7,8 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_main"
-    tools:context="com.example.environmentreader.MainActivity"
     android:weightSum="1">
 
     <TextView
@@ -72,7 +70,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/southvalue1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -93,7 +91,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/northvalue1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -115,7 +113,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/eastvalue1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -137,7 +135,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/westvalue1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -159,7 +157,29 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/centralvalue1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="National"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/nationalvalue1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -171,7 +191,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/refreshbutton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Refresh" />

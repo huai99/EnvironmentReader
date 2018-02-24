@@ -2,67 +2,87 @@ package com.example.environmentreader;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class PSI extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.environmentreader.Utility.QueryWebService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class PSI extends AppCompatActivity {
+
+    RequestQueue queue;
+    TextView southvalue, northvalue, eastvalue, westvalue, centralvalue, nationalvalue;
+    QueryWebService webService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_psi);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        Intent intentpsi = getIntent();
+        Intent intent = getIntent();
+        getSupportActionBar().setTitle("PSI");
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        Button refreshbutton = (Button) findViewById(R.id.refreshbutton1);
+        southvalue = (TextView) findViewById(R.id.southvalue);
+        northvalue = (TextView) findViewById(R.id.northvalue);
+        eastvalue = (TextView) findViewById(R.id.eastvalue);
+        westvalue = (TextView) findViewById(R.id.westvalue);
+        centralvalue = (TextView) findViewById(R.id.centralvalue);
+        nationalvalue = (TextView) findViewById(R.id.nationalvalue);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        webService = new QueryWebService(PSI.this);
+        fetchData();
+
+        refreshbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchData();
+            }
+        });
+
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+    private void fetchData(){
+        webService.getPM25(new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Display the first 500 characters of the response string.
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    JSONArray arr = obj.getJSONArray("items");
+                    JSONObject psi_twenty_four_hourly = arr.getJSONObject(0).
+                            getJSONObject("readings").getJSONObject("psi_twenty_four_hourly");
+                    String south = psi_twenty_four_hourly.getString("south");
+                    String north = psi_twenty_four_hourly.getString("north");
+                    String east = psi_twenty_four_hourly.getString("east");
+                    String west = psi_twenty_four_hourly.getString("west");
+                    String central = psi_twenty_four_hourly.getString("central");
+                    String national = psi_twenty_four_hourly.getString("national");
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+                    southvalue.setText(south);
+                    northvalue.setText(north);
+                    eastvalue.setText(east);
+                    westvalue.setText(west);
+                    centralvalue.setText(central);
+                    nationalvalue.setText(national);
 
-        if (id == R.id.home) {
-            Intent intenthome = new Intent(this, MainActivity.class);
-            startActivity(intenthome);
-
-        } else if (id == R.id.psi) {
-            Intent intentpsi = new Intent(this, PSI.class);
-            startActivity(intentpsi);
-
-        } else if (id == R.id.pm25) {
-            Intent intentpm25 = new Intent(this, PM25.class);
-            startActivity(intentpm25);
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+                } catch (JSONException e) {
+                    e.toString();
+                }
+                String responseText = response.substring(0, 500);
+                Log.d("PSI", responseText);
+            }
+        });
     }
 }
