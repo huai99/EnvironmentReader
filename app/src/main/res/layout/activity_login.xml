@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.environmentreader.LoginActivity">
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username: "
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/password"
+        android:layout_marginTop="50dp" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:layout_alignBaseline="@+id/username"
+        android:layout_alignBottom="@+id/username"
+        android:layout_alignStart="@+id/savebutton" />
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/pw"
+        android:layout_alignBottom="@+id/pw"
+        android:layout_marginEnd="22dp"
+        android:layout_toStartOf="@+id/pw"
+        android:text="Password: "
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="Input password"
+        android:layout_below="@+id/name"
+        android:layout_alignStart="@+id/name"/>
+
+    <Button
+        android:id="@+id/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:text="Save"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/pw"
+        android:layout_alignStart="@+id/nextbutton" />
+
+    <Button
+        android:id="@+id/nextbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:text="Next"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

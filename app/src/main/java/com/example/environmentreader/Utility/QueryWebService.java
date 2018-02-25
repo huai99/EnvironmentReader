@@ -30,7 +30,6 @@ public class QueryWebService {
         });
 
         queue.add(stringRequest);
-        // Add the request to the RequestQueue.
     }
 
     public void getPM25(Response.Listener<String> responseListener1) {
@@ -47,6 +46,20 @@ public class QueryWebService {
         });
 
         queue.add(stringRequest);
-        // Add the request to the RequestQueue.
+    }
+
+    public void getTimeLog(Response.Listener<String> responseListener1) {
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        String url = "https://api.data.gov.sg/v1/environment/psi";
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,responseListener1
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorText = error.toString();
+            }
+        });
+        queue.add(stringRequest);
+
     }
 }

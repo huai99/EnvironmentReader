@@ -4,6 +4,7 @@ import android.content.Context;
 import com.example.environmentreader.BoxStoreProvider;
 import com.example.environmentreader.Data.PM25Data;
 import com.example.environmentreader.Data.PSIData;
+import com.example.environmentreader.Data.TimeLogData;
 
 import java.util.List;
 import io.objectbox.Box;
@@ -36,4 +37,12 @@ public class DataService {
         pm25DataBox.put(data);
     }
 
+    public List<TimeLogData> getTimeLogData( ){
+        Box<TimeLogData> timeLogDataBox = boxStore.boxFor(TimeLogData.class);
+        return timeLogDataBox.getAll();
+    }
+    public void storeTimeLogData (TimeLogData time) {
+        Box<TimeLogData> timeLogDataBox = boxStore.boxFor(TimeLogData.class);
+        timeLogDataBox.put(time);
+    }
 }

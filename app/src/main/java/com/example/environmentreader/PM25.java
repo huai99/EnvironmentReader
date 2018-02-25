@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.example.environmentreader.Data.PM25Data;
 import com.example.environmentreader.Data.PSIData;
+import com.example.environmentreader.Data.TimeLogData;
 import com.example.environmentreader.Utility.QueryWebService;
 import com.example.environmentreader.Utility.DataService;
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class PM25 extends AppCompatActivity {
 
-    TextView southvalue1, northvalue1, eastvalue1, westvalue1, centralvalue1, nationalvalue1;
+    TextView southvalue1, northvalue1, eastvalue1, westvalue1, centralvalue1, nationalvalue1, updatedtime;
     QueryWebService webService;
     DataService dataService;
 
@@ -41,6 +42,7 @@ public class PM25 extends AppCompatActivity {
         westvalue1 = (TextView) findViewById(R.id.westvalue1);
         centralvalue1 = (TextView) findViewById(R.id.centralvalue1);
         nationalvalue1 = (TextView) findViewById(R.id.nationalvalue1);
+        updatedtime = (TextView) findViewById(R.id.pm25timevalue);
 
         dataService = new DataService(this);
         webService = new QueryWebService(this);
@@ -50,7 +52,7 @@ public class PM25 extends AppCompatActivity {
         refreshbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetchData();
+                checkConnection();
             }
         });
     }
@@ -65,28 +67,51 @@ public class PM25 extends AppCompatActivity {
                     JSONArray arr = obj.getJSONArray("items");
                     JSONObject pm25_twenty_four_hourly = arr.getJSONObject(0).
                             getJSONObject("readings").getJSONObject("pm25_twenty_four_hourly");
-                    String south = pm25_twenty_four_hourly.getString("south");
-                    String north = pm25_twenty_four_hourly.getString("north");
-                    String east = pm25_twenty_four_hourly.getString("east");
-                    String west = pm25_twenty_four_hourly.getString("west");
-                    String central = pm25_twenty_four_hourly.getString("central");
-                    String national = pm25_twenty_four_hourly.getString("national");
+                    String south1 = pm25_twenty_four_hourly.getString("south");
+                    String north1 = pm25_twenty_four_hourly.getString("north");
+                    String east1 = pm25_twenty_four_hourly.getString("east");
+                    String west1 = pm25_twenty_four_hourly.getString("west");
+                    String central1 = pm25_twenty_four_hourly.getString("central");
+                    String national1 = pm25_twenty_four_hourly.getString("national");
 
-                    southvalue1.setText(south);
-                    northvalue1.setText(north);
-                    eastvalue1.setText(east);
-                    westvalue1.setText(west);
-                    centralvalue1.setText(central);
-                    nationalvalue1.setText(national);
+                    southvalue1.setText(south1);
+                    northvalue1.setText(north1);
+                    eastvalue1.setText(east1);
+                    westvalue1.setText(west1);
+                    centralvalue1.setText(central1);
+                    nationalvalue1.setText(national1);
 
-                    PSIData psiData = new PSIData(south, north, east, west, central, national);
-                    dataService.storePSIData(psiData);
+                    PM25Data pm25Data = new PM25Data(south1, north1, east1, west1, central1, national1);
+                    dataService.storePM25Data(pm25Data);
 
                 } catch (JSONException e) {
                     e.toString();
                 }
                 String responseText = response.substring(0, 500);
                 Log.d("PM25", responseText);
+            }
+        });
+    }
+
+    private void fetchTimeData(){
+        webService.getTimeLog(new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    JSONArray arr = obj.getJSONArray("items");
+                    //JSONObject updatedtimestamp = arr.getJSONObject(0).getJSONObject("update_timestamp");
+                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
+
+                    updatedtime.setText("Last result: " + timestamp);
+
+                    TimeLogData timeLogData = new TimeLogData(timestamp);
+                    dataService.storeTimeLogData(timeLogData);
+
+                }catch(JSONException e){
+                    e.toString();
+                }
+
             }
         });
     }
@@ -98,11 +123,30 @@ public class PM25 extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             connected = true;
             fetchData();
+            fetchTimeData();
         }
         else {
             connected = false;
             List<PM25Data> pm25DataList = dataService.getPM25Data();
-            pm25DataList.get(pm25DataList.size()-1);
+            PM25Data data = pm25DataList.get(pm25DataList.size()-1);;
+            List<TimeLogData> timeLogDataList = dataService.getTimeLogData();
+            TimeLogData timeLogData = timeLogDataList.get(timeLogDataList.size()-1);
+
+            String south1 = data.getSouth();
+            String north1 = data.getNorth();
+            String east1 = data.getEast();
+            String west1 = data.getWest();
+            String central1 = data.getCentral();
+            String national1 = data.getNational();
+            String timestamp = timeLogData.getTimelog();
+
+            updatedtime.setText("Last result: " + timestamp);
+            southvalue1.setText(south1);
+            northvalue1.setText(north1);
+            eastvalue1.setText(east1);
+            westvalue1.setText(west1);
+            centralvalue1.setText(central1);
+            nationalvalue1.setText(national1);
         }
     }
 }
