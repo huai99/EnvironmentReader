@@ -17,6 +17,7 @@
         android:layout_marginTop="56dp"
         android:text="Last Result: 23/02/2018 03:00:00 PM"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -27,14 +28,16 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="324dp"
+        android:layout_width="wrap_content"
         android:layout_height="197dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="30sp"
         android:stretchColumns="0,1"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_weight="0.16">
 
         <TableRow
             android:layout_width="wrap_content"
@@ -46,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="Region"
                 android:textAlignment="center"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -54,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:text="PM 25 (hourly)"
                 android:textAlignment="center"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
         </TableRow>
 

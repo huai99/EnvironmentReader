@@ -14,9 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="false"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="50sp"
         android:text="Last Result: 23/02/2018 03:00:00 PM"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
@@ -27,12 +28,12 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="324dp"
+        android:layout_width="wrap_content"
         android:layout_height="197dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="30sp"
+        android:layout_weight="0.35"
         android:stretchColumns="0,1"
+        android:visibility="visible"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="Current Location"
                 android:textAlignment="center"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -54,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="Singapore"
                 android:textAlignment="center"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
         </TableRow>
 

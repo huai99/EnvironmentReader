@@ -21,6 +21,8 @@
         <activity android:name=".PSI" />
         <activity android:name=".PM25" />
         <activity android:name=".Homepage"/>
+        <activity android:name=".History"/>
+
         <activity
             android:name=".LoginActivity">
             <intent-filter>

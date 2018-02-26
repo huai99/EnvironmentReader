@@ -9,8 +9,7 @@ import android.widget.Button;
 
 public class Homepage extends AppCompatActivity {
 
-    Button home, psi, pm25, activitylog;
-    SharedPreferences sharedPreferences;
+    Button home, psi, pm25;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +19,6 @@ public class Homepage extends AppCompatActivity {
         home = (Button) findViewById(R.id.button);
         psi = (Button) findViewById(R.id.button2);
         pm25 = (Button) findViewById(R.id.button3);
-        activitylog = (Button) findViewById(R.id.button4);
-
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,12 +44,5 @@ public class Homepage extends AppCompatActivity {
             }
         });
 
-        activitylog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent nextActivity = new Intent(Homepage.this, ActivityLog.class);
-                //startActivity(nextActivity);
-            }
-        });
     }
 }
