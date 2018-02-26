@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.example.environmentreader.Data.PM25Data;
 import com.example.environmentreader.Data.PSIData;
-import com.example.environmentreader.Data.TimeLogData;
 import com.example.environmentreader.Utility.DataService;
 import com.example.environmentreader.Utility.QueryWebService;
 
@@ -90,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
                     String west = psi_twenty_four_hourly.getString("west");
                     String central = psi_twenty_four_hourly.getString("central");
                     String national = psi_twenty_four_hourly.getString("national");
+                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
 
+                    updatedtime.setText("Last result: " + timestamp);
                     psivalue.setText(national);
 
-                    PSIData psiData = new PSIData(south, north, east, west, central, national);
+                    PSIData psiData = new PSIData(south, north, east, west, central, national, timestamp);
                     dataService.storePSIData(psiData);
 
                 } catch (JSONException e) {
@@ -121,10 +122,12 @@ public class MainActivity extends AppCompatActivity {
                     String west1 = pm25_twenty_four_hourly.getString("west");
                     String central1 = pm25_twenty_four_hourly.getString("central");
                     String national1 = pm25_twenty_four_hourly.getString("national");
+                    String timestamp1 = arr.getJSONObject(0).getString("update_timestamp");
 
+                    updatedtime.setText("Last result: " + timestamp1);
                     pm25value.setText(national1);
 
-                    PM25Data pm25Data = new PM25Data(south1, north1, east1, west1, central1, national1);
+                    PM25Data pm25Data = new PM25Data(south1, north1, east1, west1, central1, national1, timestamp1);
                     dataService.storePM25Data(pm25Data);
 
                 } catch (JSONException e) {
@@ -136,28 +139,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchTimeData(){
-        webService.getTimeLog(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    JSONArray arr = obj.getJSONArray("items");
-                    //JSONObject updatedtimestamp = arr.getJSONObject(0).getJSONObject("update_timestamp");
-                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
 
-                    updatedtime.setText("Last result: " + timestamp);
-
-                    TimeLogData timeLogData = new TimeLogData(timestamp);
-                    dataService.storeTimeLogData(timeLogData);
-
-                }catch(JSONException e){
-                    e.toString();
-                }
-
-            }
-        });
-    }
 
     private void checkConnection(){
         boolean connected = false;
@@ -167,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             connected = true;
             fetchPSIData();
             fetchPM25Data();
-            fetchTimeData();
         }
         else {
             connected = false;
@@ -175,14 +156,12 @@ public class MainActivity extends AppCompatActivity {
             PSIData data = psiDataList.get(psiDataList.size()-1);;
             List<PM25Data> pm25DataList = dataService.getPM25Data();
             PM25Data data2 = pm25DataList.get(pm25DataList.size()-1);;
-            List<TimeLogData> timeLogDataList = dataService.getTimeLogData();
-            TimeLogData timeLogData = timeLogDataList.get(timeLogDataList.size()-1);
 
             String national = data.getNational();
             psivalue.setText(national);
             String national1 = data2.getNational();
             pm25value.setText(national1);
-            String timestamp = timeLogData.getTimelog();
+            String timestamp = data.getPsitime();
             updatedtime.setText("Last result: " + timestamp);
         }
     }

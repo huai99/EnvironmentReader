@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.example.environmentreader.Data.PM25Data;
-import com.example.environmentreader.Data.PSIData;
-import com.example.environmentreader.Data.TimeLogData;
 import com.example.environmentreader.Utility.QueryWebService;
 import com.example.environmentreader.Utility.DataService;
 import org.json.JSONArray;
@@ -98,7 +96,9 @@ public class PM25 extends AppCompatActivity {
                     String west1 = pm25_twenty_four_hourly.getString("west");
                     String central1 = pm25_twenty_four_hourly.getString("central");
                     String national1 = pm25_twenty_four_hourly.getString("national");
+                    String timestamp1 = arr.getJSONObject(0).getString("update_timestamp");
 
+                    updatedtime.setText("Last result: " + timestamp1);
                     southvalue1.setText(south1);
                     northvalue1.setText(north1);
                     eastvalue1.setText(east1);
@@ -106,7 +106,7 @@ public class PM25 extends AppCompatActivity {
                     centralvalue1.setText(central1);
                     nationalvalue1.setText(national1);
 
-                    PM25Data pm25Data = new PM25Data(south1, north1, east1, west1, central1, national1);
+                    PM25Data pm25Data = new PM25Data(south1, north1, east1, west1, central1, national1, timestamp1);
                     dataService.storePM25Data(pm25Data);
 
                 } catch (JSONException e) {
@@ -118,28 +118,7 @@ public class PM25 extends AppCompatActivity {
         });
     }
 
-    private void fetchTimeData(){
-        webService.getTimeLog(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    JSONArray arr = obj.getJSONArray("items");
-                    //JSONObject updatedtimestamp = arr.getJSONObject(0).getJSONObject("update_timestamp");
-                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
 
-                    updatedtime.setText("Last result: " + timestamp);
-
-                    TimeLogData timeLogData = new TimeLogData(timestamp);
-                    dataService.storeTimeLogData(timeLogData);
-
-                }catch(JSONException e){
-                    e.toString();
-                }
-
-            }
-        });
-    }
 
     private void checkConnection(){
         boolean connected = false;
@@ -148,14 +127,11 @@ public class PM25 extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             connected = true;
             fetchData();
-            fetchTimeData();
         }
         else {
             connected = false;
             List<PM25Data> pm25DataList = dataService.getPM25Data();
             PM25Data data = pm25DataList.get(pm25DataList.size()-1);;
-            List<TimeLogData> timeLogDataList = dataService.getTimeLogData();
-            TimeLogData timeLogData = timeLogDataList.get(timeLogDataList.size()-1);
 
             String south1 = data.getSouth();
             String north1 = data.getNorth();
@@ -163,9 +139,9 @@ public class PM25 extends AppCompatActivity {
             String west1 = data.getWest();
             String central1 = data.getCentral();
             String national1 = data.getNational();
-            String timestamp = timeLogData.getTimelog();
+            String timestamp1 = data.getPm25time();
 
-            updatedtime.setText("Last result: " + timestamp);
+            updatedtime.setText("Last result: " + timestamp1);
             southvalue1.setText(south1);
             northvalue1.setText(north1);
             eastvalue1.setText(east1);

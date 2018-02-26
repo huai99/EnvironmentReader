@@ -15,17 +15,19 @@ public class PM25Data {
     private String west;
     private String central;
     private String national;
+    private String pm25time;
 
     public PM25Data() {
     }
 
-    public PM25Data(String south, String north, String east, String west, String central, String national) {
+    public PM25Data(String south, String north, String east, String west, String central, String national, String pm25time) {
         this.south = south;
         this.east = east;
         this.north = north;
         this.west = west;
         this.central = central;
         this.national = national;
+        this.pm25time = pm25time;
     }
 
     public long getId() {
@@ -83,4 +85,13 @@ public class PM25Data {
     public void setNational(String national) {
         this.national = national;
     }
+
+    public String getPm25time() {
+        return pm25time;
+    }
+
+    public void setPm25time (String pm25time) {
+        this.pm25time = pm25time;
+    }
+
 }

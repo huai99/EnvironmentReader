@@ -15,17 +15,19 @@ public class PSIData {
     private String west;
     private String central;
     private String national;
+    private String psitime;
 
     public PSIData() {
     }
 
-    public PSIData(String south, String north, String east, String west, String central, String national) {
+    public PSIData(String south, String north, String east, String west, String central, String national, String psitime) {
         this.south = south;
         this.east = east;
         this.north = north;
         this.west = west;
         this.central = central;
         this.national = national;
+        this.psitime = psitime;
     }
 
     public long getId() {
@@ -83,4 +85,13 @@ public class PSIData {
     public void setNational(String national) {
         this.national = national;
     }
+
+    public String getPsitime() {
+        return psitime;
+    }
+
+    public void setPsitime (String psitime) {
+        this.psitime = psitime;
+    }
+
 }

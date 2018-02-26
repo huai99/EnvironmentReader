@@ -13,16 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.environmentreader.Data.PM25Data;
 import com.example.environmentreader.Data.PSIData;
-import com.example.environmentreader.Data.TimeLogData;
 import com.example.environmentreader.Utility.DataService;
 import com.example.environmentreader.Utility.QueryWebService;
 
@@ -102,7 +94,9 @@ public class PSI extends AppCompatActivity {
                     String west = psi_twenty_four_hourly.getString("west");
                     String central = psi_twenty_four_hourly.getString("central");
                     String national = psi_twenty_four_hourly.getString("national");
+                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
 
+                    updatedtime.setText("Last result: " + timestamp);
                     southvalue.setText(south);
                     northvalue.setText(north);
                     eastvalue.setText(east);
@@ -110,7 +104,7 @@ public class PSI extends AppCompatActivity {
                     centralvalue.setText(central);
                     nationalvalue.setText(national);
 
-                    PSIData psiData = new PSIData(south, north, east, west, central, national);
+                    PSIData psiData = new PSIData(south, north, east, west, central, national, timestamp);
                     dataService.storePSIData(psiData);
 
                 } catch (JSONException e) {
@@ -122,28 +116,7 @@ public class PSI extends AppCompatActivity {
         });
     }
 
-    private void fetchTimeData(){
-        webService.getTimeLog(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    JSONArray arr = obj.getJSONArray("items");
-                    //JSONObject updatedtimestamp = arr.getJSONObject(0).getJSONObject("update_timestamp");
-                    String timestamp = arr.getJSONObject(0).getString("update_timestamp");
 
-                    updatedtime.setText("Last result: " + timestamp);
-
-                    TimeLogData timeLogData = new TimeLogData(timestamp);
-                    dataService.storeTimeLogData(timeLogData);
-
-                }catch(JSONException e){
-                    e.toString();
-                }
-
-            }
-        });
-    }
 
     private void checkConnection(){
         boolean connected = false;
@@ -152,14 +125,11 @@ public class PSI extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             connected = true;
             fetchData();
-            fetchTimeData();
         }
         else {
             connected = false;
             List<PSIData> psiDataList = dataService.getPSIData();
             PSIData data = psiDataList.get(psiDataList.size()-1);
-            List<TimeLogData> timeLogDataList = dataService.getTimeLogData();
-            TimeLogData timeLogData = timeLogDataList.get(timeLogDataList.size()-1);
 
             String south = data.getSouth();
             String north = data.getNorth();
@@ -167,7 +137,7 @@ public class PSI extends AppCompatActivity {
             String west = data.getWest();
             String central = data.getCentral();
             String national = data.getNational();
-            String timestamp = timeLogData.getTimelog();
+            String timestamp = data.getPsitime();
 
             updatedtime.setText("Last result: " + timestamp);
             southvalue.setText(south);
